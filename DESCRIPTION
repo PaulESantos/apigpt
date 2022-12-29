@@ -2,7 +2,7 @@ Package: appigpt
 Title: gptstudio adds functionality based on OpenAI's GPT family of models directly into Rstudio
 Version: 0.0.0.9000
 Authors@R: 
-    person("Paul Efren"", "Santos Andrade", , "paulefrens@gmail.com", role = c("aut", "cre"))
+    person("Paul Efren", "Santos Andrade", , "paulefrens@gmail.com", role = c("aut", "cre"))
 Description: OpenAI offers a number of large language models (LLMs) accessible via API. This package lowers the barrier to using this API inside of RStudio IDE.
 License: MIT + file LICENSE
 Suggests: 
@@ -14,7 +14,10 @@ RoxygenNote: 7.2.3
 URL: https://github.com/PaulESantos/appigpt
 BugReports: https://github.com/PaulESantos/appigpt/issues
 Imports: 
-    lifecycle
-LazyData: true
-Depends:
+    cli,
+    httr,
+    lifecycle,
+    openai,
     rstudioapi (>= 0.12)
+LazyData: true
+

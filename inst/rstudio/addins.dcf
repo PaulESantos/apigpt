@@ -1,0 +1,9 @@
+Name: Spanich spelling and Grammar
+Description: Uses openai's GPT to improve Spanish spelling and grammar of selected text
+Binding: spesgAddin
+Interactive: false
+
+Name: Translate selected text to Spanish
+Description: Uses openai's GPT to translate selected text to Spanish
+Binding: tspeAddin
+Interactive: false

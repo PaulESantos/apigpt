@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(appigpt)
+library(apigpt)
 
-test_check("appigpt")
+tthat::test_check("apigpt")
