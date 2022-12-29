@@ -9,4 +9,4 @@
 library(testthat)
 library(apigpt)
 
-tthat::test_check("apigpt")
+testthat::test_check("apigpt")
