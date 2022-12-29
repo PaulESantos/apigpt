@@ -18,6 +18,6 @@ Imports:
     httr,
     lifecycle,
     openai,
-    rstudioapi (>= 0.12)
+    rstudioapi (>= 0.12),
+    uuid
 LazyData: true
-
