@@ -1,12 +1,14 @@
 .onLoad <- function(lib, pkg) {
   op <- options()
-  op.gptstudio <- list(
-    gptstudio.valid_api = FALSE,
-    gptstudio.openai_key = NULL
+  op.apigpt <- list(
+    apigpt.valid_api = FALSE,
+    apigpt.openai_key = NULL,
+    apigpt.max_tokens = 500
+
   )
 
-  toset <- !(names(op.gptstudio) %in% names(op))
-  if (any(toset)) options(op.gptstudio[toset])
+  toset <- !(names(op.apigpt) %in% names(op))
+  if (any(toset)) options(op.apigpt[toset])
 
   invisible()
 }

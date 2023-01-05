@@ -8,7 +8,7 @@ gpt_insert(
   model,
   prompt,
   temperature = 0.1,
-  max_tokens = getOption("gptstudio.max_tokens"),
+  max_tokens = getOption("apigpt.max_tokens"),
   openai_api_key = Sys.getenv("OPENAI_API_KEY"),
   openai_organization = NULL,
   append_text = FALSE
