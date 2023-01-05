@@ -15,7 +15,7 @@
 gpt_edit <- function(model,
                      instruction,
                      temperature,
-                     top_p,
+                     top_p = 1,
                      openai_api_key = Sys.getenv("OPENAI_API_KEY"),
                      openai_organization = NULL,
                      append_text = FALSE) {
@@ -48,7 +48,7 @@ gpt_edit <- function(model,
 # Wrapper around create_edit to help with testthat
 # @export
 openai_create_edit <- function(model, input, instruction, temperature,
-                               top_p, openai_api_key, openai_organization){
+                               top_p = 1, openai_api_key, openai_organization){
   openai::create_edit(
     model = model,
     input = input,
@@ -77,7 +77,7 @@ openai_create_edit <- function(model, input, instruction, temperature,
 gpt_create <- function(model,
                        temperature,
                        max_tokens,
-                       top_p,
+                       top_p = 1,
                        openai_api_key = Sys.getenv("OPENAI_API_KEY"),
                        openai_organization = NULL,
                        append_text = TRUE) {
@@ -112,7 +112,7 @@ gpt_create <- function(model,
 # Wrapper around create_completion to help with testthat
 # @export
 openai_create_completion <- function(model, prompt, temperature, max_tokens,
-                                     top_p, openai_api_key, openai_organization){
+                                     top_p = 1, openai_api_key, openai_organization){
   openai::create_completion(
     model = model,
     prompt = prompt,

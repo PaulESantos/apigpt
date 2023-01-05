@@ -8,7 +8,7 @@ gpt_edit(
   model,
   instruction,
   temperature,
-  top_p,
+  top_p = 1,
   openai_api_key = Sys.getenv("OPENAI_API_KEY"),
   openai_organization = NULL,
   append_text = FALSE
