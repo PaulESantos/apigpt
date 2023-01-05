@@ -52,13 +52,13 @@ test_that("API connection can return true", {
 
 # ---------------------------------------------------------------
 
-#mockr::local_mock(
-#  get_selection = function() {
-#    data.frame(value = "here is some selected text")
-#  }
-#)
+mockr::local_mock(
+  get_selection = function() {
+    data.frame(value = "here is some selected text")
+  }
+)
 
-#mockr::local_mock(insert_text <-  function(improved_text) improved_text)
+mockr::local_mock(insert_text = function(improved_text) improved_text)
 sample_key <- uuid::UUIDgenerate()
 
 test_that("gpt_edit can replace and append text", {
@@ -76,6 +76,7 @@ test_that("gpt_edit can replace and append text", {
       instruction = "instructions",
       temperature = 0.1,
       openai_api_key = sample_key,
+      top_p = top_p, #
       append_text = FALSE
     )
   expect_equal(replace_text, "here are edits openai returns")
@@ -109,6 +110,7 @@ test_that("gpt_create can replace & append text", {
       model = "code-davinci-edit-001",
       temperature = 0.1,
       max_tokens = 500,
+      top_p = top_p,#
       openai_api_key = sample_key,
       append_text = FALSE
     )
@@ -127,7 +129,6 @@ test_that("gpt_create can replace & append text", {
     "here are completions openai returns"
   ))
 })
-
 # ---------------------------------------------------------------
 
 test_that("Spelling and grammer editing works", {
