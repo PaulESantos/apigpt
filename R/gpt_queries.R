@@ -123,12 +123,70 @@ openai_create_completion <- function(model, prompt, temperature, max_tokens,
   )
 }
 
+
+#' Use GPT to improve text
+#'
+#' This function uses the GPT model from OpenAI to improve the spelling and
+#' grammar of the selected text in the current RStudio session.
+#'
+#' @param model The name of the GPT model to use.
+#' @param prompt Instructions for the insertion
+#' @param temperature A parameter for controlling the randomness of the GPT
+#' model's output.
+#' @param max_tokens Maximum number of tokens to return (related to length of
+#' response), defaults to 500
+#' @param openai_api_key An API key for the OpenAI API.
+#' @param openai_organization An optional organization ID for the OpenAI API.
+#' @param append_text Add text to selection rather than replace, defaults to
+#' FALSE
+#'
+#' @return Nothing is returned. The improved text is inserted into the current
+#' RStudio session.
+#' @export
+gpt_insert <- function(model,
+                       prompt,
+                       temperature = 0.1,
+                       max_tokens = getOption("gptstudio.max_tokens"),
+                       openai_api_key = Sys.getenv("OPENAI_API_KEY"),
+                       openai_organization = NULL,
+                       append_text = FALSE) {
+  check_api()
+  selection <- get_selection()
+  cli::cli_progress_step("Asking GPT for help...")
+
+  prompt <- paste(prompt, selection$value)
+
+  edit <- openai_create_completion(
+    model = model,
+    prompt = prompt,
+    temperature = temperature,
+    max_tokens = max_tokens,
+    openai_api_key = openai_api_key,
+    openai_organization = openai_organization
+  )
+
+  cli::cli_progress_step("Inserting text from GPT...")
+
+  if (append_text) {
+    improved_text <- c(selection$value, edit$choices$text)
+  } else {
+    improved_text <- c(edit$choices$text, selection$value)
+  }
+
+  cli::cli_format(improved_text)
+
+  insert_text(improved_text)
+}
+
 # Wrapper around selectionGet to help with testthat
-get_selection <- function(){
+get_selection <- function() {
+  rstudioapi::verifyAvailable()
   rstudioapi::selectionGet()
 }
 
 # Wrapper around selectionGet to help with testthat
-insert_text <- function(improved_text){
+insert_text <- function(improved_text) {
+  rstudioapi::verifyAvailable()
   rstudioapi::insertText(improved_text)
 }
+

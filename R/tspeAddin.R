@@ -4,20 +4,9 @@
 #'
 #' @export
 tspeAddin <- function() {
-  check_api_connection()
-  selection <- rstudioapi::selectionGet()
-
-  edit <- openai::create_edit(
+  gpt_edit(
     model = "text-davinci-edit-001",
-    input = selection$value,
     instruction = "Translate to Peruvian Spanish.",
-    temperature = .05,
-    top_p = 1,
-    openai_api_key = Sys.getenv("OPENAI_API_KEY"),
-    openai_organization = NULL
+    temperature = .05
   )
-
-  rstudioapi::insertText(edit$choices[1,1])
-
-
 }

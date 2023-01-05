@@ -6,6 +6,9 @@ Authors@R:
 Description: OpenAI offers a number of large language models (LLMs) accessible via API. This package lowers the barrier to using this API inside of RStudio IDE.
 License: MIT + file LICENSE
 Suggests: 
+    mockr,
+    withr,
+    uuid,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -14,10 +17,13 @@ RoxygenNote: 7.2.3
 URL: https://github.com/PaulESantos/apigpt
 BugReports: https://github.com/PaulESantos/apigpt/issues
 Imports: 
+    assertthat,
     cli,
+    glue,
     httr,
+    jsonlite,
     lifecycle,
-    openai,
+    rlang,
     rstudioapi (>= 0.12),
-    uuid
+    usethis
 LazyData: true

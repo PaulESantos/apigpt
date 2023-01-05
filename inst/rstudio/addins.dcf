@@ -7,3 +7,9 @@ Name: Translate selected text to Spanish
 Description: Uses openai's GPT to translate selected text to Spanish
 Binding: tspeAddin
 Interactive: false
+
+
+Name: Suggest unit test
+Description: Suggest a unit test with testthat for your functions
+Binding: test_addin
+Interactive: false
