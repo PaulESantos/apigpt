@@ -7,6 +7,6 @@ tspeAddin <- function() {
   gpt_edit(
     model = "text-davinci-edit-001",
     instruction = "Translate to Peruvian Spanish.",
-    temperature = .05
+    temperature = .1
   )
 }

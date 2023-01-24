@@ -11,5 +11,5 @@ Interactive: false
 
 Name: Suggest unit test
 Description: Suggest a unit test with testthat for your functions
-Binding: test_addin
+Binding: suggest_unit_test_addin
 Interactive: false

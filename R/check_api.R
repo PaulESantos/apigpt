@@ -23,9 +23,9 @@ check_api_connection <- function(api_key) {
                     increase or decrease the number of tokens with the
                     `gptstudio.max_tokens` option. Here is an example to lower
                     the max tokens to 100 tokens per query:")
-      cli::cli_code("options(\"apigpt.max_tokens\") = 100")
-      options("apigpt.valid_api" = TRUE)
-      options("apigpt.openai_key" = api_key)
+      cli::cli_code("options(\"gptstudio.max_tokens\") = 100")
+      options("gptstudio.valid_api" = TRUE)
+      options("gptstudio.openai_key" = api_key)
       invisible(TRUE)
     } else {
       # If the status code is not 200, the key is invalid
@@ -86,8 +86,8 @@ check_api_key <- function(api_key) {
 #' @export
 check_api <- function() {
   api_key <- Sys.getenv("OPENAI_API_KEY")
-  valid_api <- getOption("apigpt.valid_api")
-  saved_key <- getOption("apigpt.openai_key")
+  valid_api <- getOption("gptstudio.valid_api")
+  saved_key <- getOption("gptstudio.openai_key")
   if (!valid_api) {
     rlang::inform("Checking API key using OPENAI_API_KEY environment variable...")
     check_api_connection(api_key)

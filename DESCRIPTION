@@ -9,6 +9,7 @@ Suggests:
     mockr,
     withr,
     uuid,
+    spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -16,14 +17,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 URL: https://github.com/PaulESantos/apigpt
 BugReports: https://github.com/PaulESantos/apigpt/issues
+LazyData: true
 Imports: 
     assertthat,
     cli,
     glue,
     httr,
     jsonlite,
-    lifecycle,
     rlang,
-    rstudioapi (>= 0.12),
+    rstudioapi,
     usethis
-LazyData: true

@@ -1,126 +1,94 @@
 #' Use GPT to improve text
 #'
-#' This function uses the GPT model from OpenAI to improve the spelling and grammar of the selected text in the current RStudio session.
+#' This function uses the GPT model from OpenAI to improve the spelling and
+#' grammar of the selected text in the current RStudio session.
 #'
 #' @param model The name of the GPT model to use.
 #' @param instruction Instruction given to the model on how to improve the text.
-#' @param temperature A parameter for controlling the randomness of the GPT model's output.
-#' @param top_p A parameter for controlling the probability of the GPT model's output.
+#' @param temperature A parameter for controlling the randomness of the GPT
+#' model's output.
 #' @param openai_api_key An API key for the OpenAI API.
-#' @param openai_organization An optional organization ID for the OpenAI API.
-#' @param append_text Add text to selection rather than replace, defaults to FALSE
+#' @param append_text Add text to selection rather than replace, defaults to
+#'  FALSE
 #'
-#' @return Nothing is returned. The improved text is inserted into the current RStudio session.
+#' @return Nothing is returned. The improved text is inserted into the current
+#'  RStudio session.
 #' @export
 gpt_edit <- function(model,
                      instruction,
                      temperature,
-                     top_p = 1,
                      openai_api_key = Sys.getenv("OPENAI_API_KEY"),
-                     openai_organization = NULL,
                      append_text = FALSE) {
   check_api()
   selection <- get_selection()
-  cli::cli_progress_step("Asking GPT for help...")
+  rlang::inform("Asking GPT for help...")
 
   edit <- openai_create_edit(
     model = model,
     input = selection$value,
     instruction = instruction,
     temperature = temperature,
-    top_p = top_p,
-    openai_api_key = openai_api_key,
-    openai_organization = openai_organization
+    openai_api_key = openai_api_key
   )
 
-  cli::cli_progress_step("Inserting text from GPT...")
+  cli::cat_print(edit)
 
   if (append_text) {
     improved_text <- c(selection$value, edit$choices$text)
-    cli::cli_progress_step("Appending text from GPT...")
+    rlang::inform("Appending text from GPT...")
   } else {
     improved_text <- edit$choices$text
-    cli::cli_progress_step("Inserting text from GPT...")
+    rlang::inform("Inserting text from GPT...")
   }
-  insert_text(improved_text)
-}
 
-# Wrapper around create_edit to help with testthat
-# @export
-openai_create_edit <- function(model, input, instruction, temperature,
-                               top_p = 1, openai_api_key, openai_organization){
-  openai::create_edit(
-    model = model,
-    input = input,
-    instruction = instruction,
-    temperature = temperature,
-    top_p = top_p,
-    openai_api_key = openai_api_key,
-    openai_organization = openai_organization
-  )
+  cli::cli_text("{improved_text}")
+
+  insert_text(improved_text)
 }
 
 #' Use GPT to improve text
 #'
-#' This function uses the GPT model from OpenAI to improve the spelling and grammar of the selected text in the current RStudio session.
+#' This function uses the GPT model from OpenAI to improve the spelling and
+#'  grammar of the selected text in the current RStudio session.
 #'
 #' @param model The name of the GPT model to use.
-#' @param temperature A parameter for controlling the randomness of the GPT model's output.
-#' @param max_tokens Maximum number of tokens to return (related to length of response), defaults to 500
-#' @param top_p A parameter for controlling the probability of the GPT model's output.
+#' @param temperature A parameter for controlling the randomness of the GPT
+#'  model's output.
+#' @param max_tokens Maximum number of tokens to return (related to length of
+#' response), defaults to 500
 #' @param openai_api_key An API key for the OpenAI API.
-#' @param openai_organization An optional organization ID for the OpenAI API.
-#' @param append_text Add text to selection rather than replace, defaults to TRUE
+#' @param append_text Add text to selection rather than replace, default to TRUE
 #'
-#' @return Nothing is returned. The improved text is inserted into the current RStudio session.
+#' @return Nothing is returned. The improved text is inserted into the current
+#' RStudio session.
 #' @export
 gpt_create <- function(model,
                        temperature,
-                       max_tokens,
-                       top_p = 1,
+                       max_tokens = getOption("gptstudio.max_tokens"),
                        openai_api_key = Sys.getenv("OPENAI_API_KEY"),
-                       openai_organization = NULL,
                        append_text = TRUE) {
   check_api()
   selection <- get_selection()
-  cat('here\n')
-  cli::cli_progress_step("Asking GPT for help...")
+
 
   edit <- openai_create_completion(
     model = model,
     prompt = selection$value,
     temperature = temperature,
     max_tokens = max_tokens,
-    top_p = top_p,
-    openai_api_key = openai_api_key,
-    openai_organization = openai_organization
+    openai_api_key = openai_api_key
   )
 
-  cli::cli_progress_step("Inserting text from GPT...")
+  rlang::inform("Inserting text from GPT...")
 
   if (append_text) {
     improved_text <- c(selection$value, edit$choices$text)
-    cli::cli_progress_step("Appending text from GPT...")
+    rlang::inform("Appending text from GPT...")
   } else {
     improved_text <- edit$choices$text
-    cli::cli_progress_step("Inserting text from GPT...")
+    rlang::inform("Inserting text from GPT...")
   }
   insert_text(improved_text)
-}
-
-
-# Wrapper around create_completion to help with testthat
-# @export
-openai_create_completion <- function(model, prompt, temperature, max_tokens,
-                                     top_p = 1, openai_api_key, openai_organization){
-  openai::create_completion(
-    model = model,
-    prompt = prompt,
-    temperature = temperature,
-    top_p = top_p,
-    openai_api_key = openai_api_key,
-    openai_organization = openai_organization
-  )
 }
 
 
@@ -136,7 +104,6 @@ openai_create_completion <- function(model, prompt, temperature, max_tokens,
 #' @param max_tokens Maximum number of tokens to return (related to length of
 #' response), defaults to 500
 #' @param openai_api_key An API key for the OpenAI API.
-#' @param openai_organization An optional organization ID for the OpenAI API.
 #' @param append_text Add text to selection rather than replace, defaults to
 #' FALSE
 #'
@@ -146,13 +113,12 @@ openai_create_completion <- function(model, prompt, temperature, max_tokens,
 gpt_insert <- function(model,
                        prompt,
                        temperature = 0.1,
-                       max_tokens = getOption("apigpt.max_tokens"),
+                       max_tokens = getOption("gptstudio.max_tokens"),
                        openai_api_key = Sys.getenv("OPENAI_API_KEY"),
-                       openai_organization = NULL,
                        append_text = FALSE) {
   check_api()
   selection <- get_selection()
-  cli::cli_progress_step("Asking GPT for help...")
+  rlang::inform("Asking GPT for help...")
 
   prompt <- paste(prompt, selection$value)
 
@@ -161,11 +127,10 @@ gpt_insert <- function(model,
     prompt = prompt,
     temperature = temperature,
     max_tokens = max_tokens,
-    openai_api_key = openai_api_key,
-    openai_organization = openai_organization
+    openai_api_key = openai_api_key
   )
 
-  cli::cli_progress_step("Inserting text from GPT...")
+  rlang::inform("Inserting text from GPT...")
 
   if (append_text) {
     improved_text <- c(selection$value, edit$choices$text)
@@ -178,17 +143,22 @@ gpt_insert <- function(model,
   insert_text(improved_text)
 }
 
-# Wrapper around selectionGet to help with testthat
-#' @keywords internal
+#' Wrapper around selectionGet to help with testthat
+#'
+#' @return Text selection via `rstudioapi::selectionGet`
+#'
+#' @export
 get_selection <- function() {
   rstudioapi::verifyAvailable()
   rstudioapi::selectionGet()
 }
 
-# Wrapper around selectionGet to help with testthat
-#' @keywords internal
+#' Wrapper around selectionGet to help with testthat
+#'
+#' @param improved_text Text from model queries to inert into script or document
+#'
+#' @export
 insert_text <- function(improved_text) {
   rstudioapi::verifyAvailable()
   rstudioapi::insertText(improved_text)
 }
-
