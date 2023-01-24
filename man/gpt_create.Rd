@@ -7,7 +7,7 @@
 gpt_create(
   model,
   temperature,
-  max_tokens = getOption("gptstudio.max_tokens"),
+  max_tokens = getOption("apigpt.max_tokens"),
   openai_api_key = Sys.getenv("OPENAI_API_KEY"),
   append_text = TRUE
 )

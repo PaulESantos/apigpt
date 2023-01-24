@@ -64,7 +64,7 @@ gpt_edit <- function(model,
 #' @export
 gpt_create <- function(model,
                        temperature,
-                       max_tokens = getOption("gptstudio.max_tokens"),
+                       max_tokens = getOption("apigpt.max_tokens"),
                        openai_api_key = Sys.getenv("OPENAI_API_KEY"),
                        append_text = TRUE) {
   check_api()
@@ -113,7 +113,7 @@ gpt_create <- function(model,
 gpt_insert <- function(model,
                        prompt,
                        temperature = 0.1,
-                       max_tokens = getOption("gptstudio.max_tokens"),
+                       max_tokens = getOption("apigpt.max_tokens"),
                        openai_api_key = Sys.getenv("OPENAI_API_KEY"),
                        append_text = FALSE) {
   check_api()
